@@ -20,6 +20,14 @@ function Header() {
       console.error(error.response.data);
     }
   }, []);
+
+  async function logout() {
+    const logoutResponse = await axios.post(`${apiurl}/logout`);
+    if (logoutResponse.status == 200) {
+      console.log("logged out");
+      setUserInfo({});
+    }
+  }
   return (
     <nav className="border-gray-200 bg-gray-50 dark:bg-black dark:border-gray-700">
       <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
@@ -56,12 +64,19 @@ function Header() {
           </svg>
         </button>
         <div className="hidden w-full md:block md:w-auto" id="navbar-solid-bg">
-          {userInfo ? (
+          {userInfo.username ? (
             <div className="flex gap-4 items-center">
               <button className="flex bg-purple-800 text-white font-bold rounded-xl px-6 py-2 hover:bg-purple-700">
                 <a href="/create-post" className="text-white">
                   Create a new Post
                 </a>
+              </button>
+
+              <button
+                onClick={logout}
+                className="flex bg-purple-800 text-white font-bold rounded-xl px-6 py-2 hover:bg-purple-700"
+              >
+                logout
               </button>
             </div>
           ) : (
